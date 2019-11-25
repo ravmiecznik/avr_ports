@@ -10,8 +10,6 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#include "../prints.h"
-//#include <avr/io.h>
 
 enum pin_direction{
 	in = 0,
