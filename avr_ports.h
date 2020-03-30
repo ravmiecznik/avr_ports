@@ -36,8 +36,10 @@ struct AvrPort{
 	union{
 		volatile uint16_t port;
 		struct{
+			volatile uint8_t pin_register;		//use to get pin value
 			volatile uint8_t port_dir_register;
-			volatile uint8_t port_register;
+			volatile uint8_t port_register;		//use to set or read pin settings
+
 		};
 		struct{
 			volatile bool dirpin0:1;
@@ -81,10 +83,10 @@ struct AvrPort{
 		port_register ^= (1<<pin);
 	}
 	uint8_t get(){
-		return port_register;
+		return pin_register;
 	}
 	bool get_pin(avr_pin pin){
-		return port_register & (1<<pin);
+		return pin_register & (1<<pin);
 	}
 	void operator=(uint8_t val){
 		port_register = val;
@@ -105,7 +107,7 @@ struct AvrPort{
 		port_register = 0xff;
 	}
 	void set_pin_direction(avr_pin pin, pin_direction direction){
-		if(direction){
+		if(direction == out){
 			port_dir_register |= (1<<pin);
 		}
 		else{
